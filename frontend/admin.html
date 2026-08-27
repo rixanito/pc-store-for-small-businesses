@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apex Hardware | Admin Dashboard</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+  <!-- Admin Navigation -->
+  <header class="navbar">
+    <div class="container nav-container">
+      
+      <a href="index.html" class="logo">Apex<span>PC</span> <small class="admin-badge">Admin</small></a>
+      <nav class="nav-links">
+        <a href="index.html" target="_blank">View Store ↗</a>
+        <a href="contact.html" target="_blank">Contact Page</a>
+        <button id="logout">log out</button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container admin-container">
+    
+    <!-- Top Stats Bar -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <span class="stat-title">Total Products</span>
+        <span class="stat-value" id="statTotal">0</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-title">In Stock</span>
+        <span class="stat-value text-success" id="statInStock">0</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-title">Out of Stock</span>
+        <span class="stat-value text-danger" id="statOutOfStock">0</span>
+      </div>
+    </div>
+
+    <!-- Admin Content Grid -->
+    <div class="admin-grid">
+
+      <!-- Left Column: Add Product Form -->
+      <section class="admin-card form-card">
+        <div class="card-header">
+          <h2>Add New Product</h2>
+          <span class="form-mode-tag">New Item</span>
+        </div>
+
+        <form id="productForm">
+          <div class="form-group">
+            <label for="productName">Product Name *</label>
+            <input type="text" id="productName" name="name" placeholder="e.g., Apex Sentinel i7" required>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="productPrice">Price (MAD) *</label>
+              <input type="number" id="productPrice" name="price" placeholder="12500" step="0.01" required>
+            </div>
+
+            <div class="form-group">
+              <label for="productType">Category / Type *</label>
+              <select id="productType" name="pc_type" required>
+                <option value="desktop">Desktop PC</option>
+                <option value="laptop">Laptop</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="productStock">Availability *</label>
+              <select id="productStock" name="is_available" required>
+                <option value="1">In Stock</option>
+                <option value="0">Out of Stock</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="productImage">Product Image (Optional)</label>
+              <input type="file" id="productImage" name="image" accept="image/*" >
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="productDescription">Description & Specs *</label>
+            <textarea id="productDescription" name="description" rows="5" placeholder="Enter hardware description and specs, CPU, GPU, RAM, SSD..." required></textarea>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn-primary" id="submitBtn">Add Product</button>
+          </div>
+        </form>
+      </section>
+
+      <!-- Right Column: Product Inventory Table -->
+      <section class="admin-card table-card">
+        <div class="card-header">
+          <h2>Product Inventory</h2>
+          <input type="text" id="adminSearchInput" class="admin-search-input" placeholder="Search inventory...">
+        </div>
+
+        <div class="table-responsive">
+          <table class="inventory-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Price</th>
+                <th>Status</th>
+                <th class="text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="inventoryTableBody">
+              <!-- Dynamically populated via admin.js -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Empty State -->
+        <div id="emptyInventory" class="empty-state hidden">
+          <p>No products found in the catalog.</p>
+        </div>
+      </section>
+
+    </div>
+  </main>
+    <dialog id="editModal" class="admin-modal">
+    <div class="modal-wrapper">
+      
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <div>
+          <h2 class="modal-title">Edit Product <span id="modalProductIdTag" class="modal-id-badge">#--</span></h2>
+          <p class="modal-subtitle">Modify specifications, inventory status, or pricing.</p>
+        </div>
+        <button type="button" class="modal-close-btn" id="closeEditModalBtn" aria-label="Close modal">&times;</button>
+      </div>
+
+      <!-- Modal Form -->
+      <form id="editProductForm" class="modal-body">
+        <input type="hidden" id="editProductId" name="id">
+
+        <!-- Current Image Preview Banner -->
+        <div class="preview-card">
+          <img id="editImagePreview" src="images/image.png" alt="Product Preview" class="preview-thumb">
+          <div class="preview-details">
+            <span class="preview-label">Active Image</span>
+            <span id="editImageName" class="preview-filename">current-product.png</span>
+          </div>
+        </div>
+
+        <!-- Form Inputs -->
+        <div class="form-group">
+          <label for="editProductName" class="form-label">Product Name *</label>
+          <input type="text" id="editProductName" name="name" class="modal-input" required>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="editProductPrice" class="form-label">Price (MAD) *</label>
+            <input type="number" id="editProductPrice" name="price" step="0.01" class="modal-input" required>
+          </div>
+
+          <div class="form-group">
+            <label for="editProductType" class="form-label">Category *</label>
+            <select id="editProductType" name="pc_type" class="modal-input" required>
+              <option value="desktop">Desktop PC</option>
+              <option value="laptop">Laptop</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="editProductStock" class="form-label">Availability *</label>
+            <select id="editProductStock" name="is_available" class="modal-input" required>
+              <option value="1">In Stock</option>
+              <option value="0">Out of Stock</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="editProductImage" class="form-label">Replace Image</label>
+            <input type="file" id="editProductImage" name="image" accept="image/*" class="modal-file-input">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="editProductDescription" class="form-label">Description & Specs *</label>
+          <textarea id="editProductDescription" name="description" rows="4" class="modal-input modal-textarea" required></textarea>
+        </div>
+
+        <!-- Form Footer Actions -->
+        <div class="modal-footer">
+          <button type="button" class="btn-cancel" id="cancelEditModalBtn">Cancel</button>
+          <button type="submit" class="btn-save">Save Changes</button>
+        </div>
+      </form>
+
+    </div>
+  </dialog>
+
+
+  <script src="admin.js" defer></script>
+</body>
+</html>

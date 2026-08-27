@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Details | Apex Hardware</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <header class="navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="logo">Apex<span>PC</span></a>
+      <nav class="nav-links">
+        <a href="index.html">Store</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container product-detail-container">
+    <!-- Back Link -->
+    <a href="index.html" class="back-link">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M19 12H5M12 19l-7-7 7-7"/>
+      </svg>
+      Back to Catalog
+    </a>
+
+    <!-- Loading Placeholder -->
+    <div id="loadingState" class="status-state">Loading product details...</div>
+
+    <!-- Error State -->
+    <div id="errorState" class="status-state hidden">
+      <h2>Product Not Found</h2>
+      <p>The product you are looking for doesn't exist or has been removed.</p>
+      <a href="index.html" class="btn-secondary">Browse Products</a>
+    </div>
+
+    <!-- Product View Layout -->
+    <div id="productWrapper" class="product-view-grid hidden">
+      
+      <!-- Left Column: Product Image -->
+      <div class="product-gallery">
+        <div class="main-image-container">
+          <span id="stockBadge" class="tag">In Stock</span>
+          <img id="productImg" src="" alt="Product Image">
+        </div>
+      </div>
+
+      <!-- Right Column: Product Meta, Description & Actions -->
+      <div class="product-info-panel">
+        <h1 id="productTitle" class="product-view-title">--</h1>
+        <div id="productPrice" class="product-view-price">-- MAD</div>
+
+        <!-- 1. Description moved up here -->
+        <div class="specs-section">
+          <h3>Specifications & Details</h3>
+          <p id="productDescription" class="full-description">--</p>
+        </div>
+
+        <!-- 2. Action / Contact Options below description -->
+        <div class="action-box">
+          <a id="whatsappOrderBtn" href="#" target="_blank" class="whatsapp-btn-large">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/>
+            </svg>
+            Order via WhatsApp
+          </a>
+
+          <a href="contact.html" class="phone-btn">
+            📞 Contact page
+          </a>
+        </div>
+
+        <!-- 3. Trust Badges -->
+        <div class="trust-badges">
+          <div class="trust-item">
+            <span>🚚</span>
+            <span>Fast Shipping across Morocco</span>
+          </div>
+          <div class="trust-item">
+            <span>💵</span>
+            <span>Cash on Delivery / Pickup</span>
+          </div>
+          <div class="trust-item">
+            <span>🛡️</span>
+            <span>Tested & Verified Hardware</span>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <script src="product-view.js"></script>
+</body>
+</html>
