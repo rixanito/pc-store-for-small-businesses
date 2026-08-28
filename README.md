@@ -71,7 +71,7 @@ in your browser
 
 ```
 
-username: admin  
+username: pcstore
 
 password: 1234  
 
@@ -79,39 +79,6 @@ password: 1234
 
 ---
 
-## 📦 Project Structure
-
-```
-
-project/
-
-│
-
-├── backend/
-
-│   ├── main.py
-
-│   ├── routers/
-
-│   ├── models/
-
-│   └── database.db
-
-│
-
-├── frontend/
-
-│   ├── pages/
-
-│   └── assets/
-
-│
-
-└── README.md
-
-```
-
----
 
 ## 📱 Order Flow
 
